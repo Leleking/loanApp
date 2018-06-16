@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use App\customer;
 use App\User;
 use App\guarantor;
+use App\loan;
+use App\loanType;
 use Illuminate\Http\Request;
 
 class pagesController extends Controller
@@ -38,9 +40,11 @@ class pagesController extends Controller
     }
     public function addLoan($id){
         $customer = customer::find($id);
-        return view('loan.addLoan')->with('customer',$customer);
+        $loan_type = loanType::all();
+        return view('loan.addLoan')->with('customer',$customer)->with('loan_type',$loan_type);
     }
-    public function doSomething($id){
-      
+    public function approveLoan(){
+      $loan = loan::all();
+      return view('auth.loan.approveloan')->with('loan',$loan);
     }
 }

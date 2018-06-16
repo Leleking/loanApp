@@ -1,4 +1,7 @@
 @extends('layouts.app')
+@section('css')
+<link rel="stylesheet" href="/css/lib/sweetalert/sweetalert.css">
+@endsection
 
 @section('content')
 <div class="container-fluid">
@@ -11,8 +14,18 @@
                             <span><i class="fa fa-usd f-s-40 color-primary"></i></span>
                         </div>
                         <div class="media-body media-text-right">
-                            <h2>568120</h2>
-                            <p class="m-b-0">Total Revenue</p>
+                            <?php $customers = App\customer::where('user_id',Auth::user()->id)->get();
+                            $loan_released = 0;
+                            foreach($customers as $customer){
+                                $loan =  App\loan::where('customer_id',$customer->id)->get();
+                                foreach ($loan as $loans) {
+                                    $loan_released = $loan_released + $loans->principal;
+                                }
+                               
+                            }
+                            ?>
+                            <h2>{{$loan_released}}</h2>
+                            <p class="m-b-0">Loans Released</p>
                         </div>
                     </div>
                 </div>
@@ -21,11 +34,11 @@
                 <div class="card p-30">
                     <div class="media">
                         <div class="media-left meida media-middle">
-                            <span><i class="fa fa-shopping-cart f-s-40 color-success"></i></span>
+                            <span><i class="fa fa-credit-card f-s-40 color-success"></i></span>
                         </div>
                         <div class="media-body media-text-right">
                             <h2>1178</h2>
-                            <p class="m-b-0">Sales</p>
+                            <p class="m-b-0">Payments</p>
                         </div>
                     </div>
                 </div>
@@ -38,7 +51,7 @@
                         </div>
                         <div class="media-body media-text-right">
                             <h2>25</h2>
-                            <p class="m-b-0">Stores</p>
+                            <p class="m-b-0">Due Amount</p>
                         </div>
                     </div>
                 </div>
@@ -50,7 +63,7 @@
                             <span><i class="fa fa-user f-s-40 color-danger"></i></span>
                         </div>
                         <div class="media-body media-text-right">
-                            <h2>847</h2>
+                            <h2>{{count(App\customer::where('user_id',Auth::user()->id)->get())}}</h2>
                             <p class="m-b-0">Customer</p>
                         </div>
                     </div>
@@ -58,168 +71,102 @@
             </div>
         </div>
 
-        <div class="row bg-white m-l-0 m-r-0 box-shadow ">
-
-            <!-- column -->
-            <div class="col-lg-8">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title">Extra Area Chart</h4>
-                        <div id="extra-area-chart"></div>
+        <div class="row bg-white m-l-0 m-r-0 box-shadow ">            
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-title">
+                                <h4>Pie Chart</h4>
+                            </div>
+                            <div class="flot-container">
+                                <div id="flot-pie" class="flot-pie-container"></div>
+                            </div>
+                        </div>
+                        <!-- /# card -->
                     </div>
-                </div>
-            </div>
-            <!-- column -->
+                    <!-- /# column -->
+
 
             <!-- column -->
             <div class="col-lg-4">
                 <div class="card">
+                    <h2>Collection Statistics</h2>
                     <div class="card-body browser">
-                        <p class="f-w-600">iMacs <span class="pull-right">85%</span></p>
-                        <div class="progress ">
-                            <div role="progressbar" style="width: 85%; height:8px;" class="progress-bar bg-danger wow animated progress-animated"> <span class="sr-only">60% Complete</span> </div>
-                        </div>
+                        <p class="f-w-600">Today<span class="pull-right">GH<span>&#8373;</span>0</span></p>
+                       <br>
 
-                        <p class="m-t-30 f-w-600">iBooks<span class="pull-right">90%</span></p>
-                        <div class="progress">
-                            <div role="progressbar" style="width: 90%; height:8px;" class="progress-bar bg-info wow animated progress-animated"> <span class="sr-only">60% Complete</span> </div>
-                        </div>
-
-                        <p class="m-t-30 f-w-600">iPhone<span class="pull-right">65%</span></p>
+                        <p class="m-t-30 f-w-600">Last Week<span class="pull-right">GH<span>&#8373;</span>0</span></p>
+                        
+                        <br>
+                        <p class="m-t-30 f-w-600">This Month<span class="pull-right">GH<span>&#8373;</span>0</span></p>
+                        <br>
+                        <p class="m-t-30 f-w-600">Monthy Target<span class="pull-right">GH<span>&#8373;</span>0</span></p>
                         <div class="progress">
                             <div role="progressbar" style="width: 65%; height:8px;" class="progress-bar bg-success wow animated progress-animated"> <span class="sr-only">60% Complete</span> </div>
                         </div>
 
-                        <p class="m-t-30 f-w-600">Samsung<span class="pull-right">65%</span></p>
-                        <div class="progress">
-                            <div role="progressbar" style="width: 65%; height:8px;" class="progress-bar bg-warning wow animated progress-animated"> <span class="sr-only">60% Complete</span> </div>
-                        </div>
-
-                        <p class="m-t-30 f-w-600">android<span class="pull-right">65%</span></p>
-                        <div class="progress m-b-30">
-                            <div role="progressbar" style="width: 65%; height:8px;" class="progress-bar bg-success wow animated progress-animated"> <span class="sr-only">60% Complete</span> </div>
-                        </div>
+                       
                     </div>
                 </div>
             </div>
             <!-- column -->
         </div>
         <div class="row">
-                <div class="col-lg-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Todo</h4>
-                                <div class="card-content">
-                                    <div class="todo-list">
-                                        <div class="tdl-holder">
-                                            <div class="tdl-content">
-                                                <ul>
-                                                    <li>
-                                                        <label>
-                                                            <input type="checkbox"><i class="bg-primary"></i><span>Build an angular app</span>
-                                                            <a href='#' class="ti-close"></a>
-                                                        </label>
-                                                    </li>
-                                                    <li>
-                                                        <label>
-                                                            <input type="checkbox" checked><i class="bg-success"></i><span>Creating component page</span>
-                                                            <a href='#' class="ti-close"></a>
-                                                        </label>
-                                                    </li>
-                                                    <li>
-                                                        <label>
-                                                            <input type="checkbox" checked><i class="bg-warning"></i><span>Follow back those who follow you</span>
-                                                            <a href='#' class="ti-close"></a>
-                                                        </label>
-                                                    </li>
-                                                    <li>
-                                                        <label>
-                                                            <input type="checkbox" checked><i class="bg-danger"></i><span>Design One page theme</span>
-                                                            <a href='#' class="ti-close"></a>
-                                                        </label>
-                                                    </li>
-        
-                                                    <li>
-                                                        <label>
-                                                            <input type="checkbox" checked><i class="bg-success"></i><span>Creating component page</span>
-                                                            <a href='#' class="ti-close"></a>
-                                                        </label>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <input type="text" class="tdl-new form-control" placeholder="Type here">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-            <div class="col-lg-9">
+              
+            <div class="col-lg-12">
                 <div class="card">
                     <div class="card-title">
-                        <h4>Recent Orders </h4>
+                        <h4>Due Customers </h4>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table">
+                            <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
                                 <thead>
                                     <tr>
                                         <th>#</th>
                                         <th>Name</th>
-                                        <th>Product</th>
-                                        <th>quantity</th>
-                                        <th>Status</th>
+                                        <th>Due Date</th>
+                                        <th>Days to Payment</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                      
+                                        @foreach($customers as $customer)
+                                       <?php $loan =  App\loan::where('customer_id',$customer->id)->get();?>
+                                        @foreach ($loan as $loans )
 
-                                    <tr>
-                                        <td>
-                                            <div class="round-img">
-                                                <a href=""><img src="images/avatar/4.jpg" alt=""></a>
-                                            </div>
-                                        </td>
-                                        <td>John Abraham</td>
-                                        <td><span>iBook</span></td>
-                                        <td><span>456 pcs</span></td>
-                                        <td><span class="badge badge-success">Done</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="round-img">
-                                                <a href=""><img src="images/avatar/2.jpg" alt=""></a>
-                                            </div>
-                                        </td>
-                                        <td>John Abraham</td>
-                                        <td><span>iPhone</span></td>
-                                        <td><span>456 pcs</span></td>
-                                        <td><span class="badge badge-success">Done</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="round-img">
-                                                <a href=""><img src="images/avatar/3.jpg" alt=""></a>
-                                            </div>
-                                        </td>
-                                        <td>John Abraham</td>
-                                        <td><span>iMac</span></td>
-                                        <td><span>456 pcs</span></td>
-                                        <td><span class="badge badge-warning">Pending</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="round-img">
-                                                <a href=""><img src="images/avatar/4.jpg" alt=""></a>
-                                            </div>
-                                        </td>
-                                        <td>John Abraham</td>
-                                        <td><span>iBook</span></td>
-                                        <td><span>456 pcs</span></td>
-                                        <td><span class="badge badge-success">Done</span></td>
-                                    </tr>
+                                        @if($loans->status && !$loans->cleared)
+                                        <?php $payment = App\payment::where('loan_id',$loans->id)->orderBy('id','desc')->first();
+                                        $due_date = $payment['due_date'];
+                                        $date = Carbon::parse($due_date);
+                                        $now = Carbon::now();
+                                        $diff = $date->diffInDays($now);;
+                                        ?>
+                                        @if($diff > 8)
+                                        <tr>
+                                                <td>
+                                                    <div class="round-img">
+                                                        <a href=""><img src="/img/passport/{{$customer->customer_image_file['id_card']}}" alt=""></a>
+                                                    </div>
+                                                </td>
+                                                <td>{{$customer->surname}} {{$customer->otherName}}</td>
+                                                <td><span>{{Carbon::parse($payment['due_date'])->format('l jS \of F Y') }}</span></td>
+                                                <td><span>{{$diff}}</span></td>
+                                                <td><a href="/customer/{{$customer->id}}"><button class="btn btn-success btn-rounded "><i class="fa fa-eye"></i></button></a>
+                                                    <button id="message" customer="{{$customer->id}}" class="btn btn-dark btn-rounded "><i class="fa fa-envelope"></i></button>
+                                                    <button  class="btn btn-danger btn-rounded "><i class="fa fa-phone"></i></button>
+                                                </td>
+                                            </tr>
+                                            @endif
+                                            @endif
+                                        @endforeach
+                                   
+                                    @endforeach
+                                   
                                 </tbody>
                             </table>
                         </div>
+                       
                     </div>
                 </div>
             </div>
@@ -231,5 +178,93 @@
 
         <!-- End PAge Content -->
     </div>
+    <?php
+$to = \Carbon\Carbon::createFromFormat('Y-m-d H:s:i', Carbon::now());
+$from = \Carbon\Carbon::createFromFormat('Y-m-d H:s:i', '2015-5-6 9:30:34');
+
+$diff_in_days = $to->diffInDays($from);
+
+print_r($diff_in_days); // Output: 1
+?>
+@endsection
+@section('js')
+<script src="/js/lib/flot-chart/excanvas.min.js"></script>
+    <script src="/js/lib/flot-chart/jquery.flot.js"></script>
+    <script src="/js/lib/flot-chart/jquery.flot.pie.js"></script>
+   
+    <script src="/js/lib/flot-chart/flot-tooltip/jquery.flot.tooltip.min.js"></script>
+    <script src="js/lib/datatables/datatables.min.js"></script>
+<script src="js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+<script src="js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
+<script src="js/lib/datatables/cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+<script src="js/lib/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+<script src="js/lib/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+<script src="js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+<script src="js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+<script src="js/lib/datatables/datatables-init.js"></script>
+  <script>
+  
+$( function () {
+
+var data = [
+    {
+        label: "Pending",
+        data: 1,
+        color: "#8fc9fb"
+    },
+    {
+        label: "Approved",
+        data: 3,
+        color: "#007BFF"
+    },
+    {
+        label: "Danger",
+        data: "<?php echo 25;?>",
+        color: "#19A9D5"
+    },
+    {
+        label: "Warning",
+        data: 8,
+        color: "#DC3545"
+    }
+];
+
+var plotObj = $.plot( $( "#flot-pie" ), data, {
+    series: {
+        pie: {
+            show: true,
+            radius: 1,
+            label: {
+                show: false,
+
+            }
+        }
+    },
+    grid: {
+        hoverable: true
+    },
+    tooltip: {
+        show: true,
+        content: "%p.0%, %s, n=%n", // show percentages, rounding to 2 decimal places
+        shifts: {
+            x: 20,
+            y: 0
+        },
+        defaultTheme: false
+    }
+} );
+
+} );
+
+
+  </script>
+    <!--Custom JavaScript -->
     
+   
+   
+   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+   <script src="/js/home.js"></script>
+   <script src="/js/ajax.js"></script>
+
+
 @endsection

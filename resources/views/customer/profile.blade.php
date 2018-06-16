@@ -11,7 +11,7 @@
                     <br>
                     <div class="card-body">
                         
-                    <div><img class="img-fluid" src="/img/passport/{{$customer->customer_image_file['passport']}}" alt=""></div>
+                    <div><img class="img-fluid" width="250px" height="250px" src="/img/passport/{{$customer->customer_image_file['passport']}}" alt=""></div>
                     <hr>
                     <div>Created at: {{Carbon::parse($customer->created_at)->format('l jS \of F Y h:i A')}}</div>
                    
@@ -25,7 +25,7 @@
                                        
                                         <!-- List style -->
                                         <ul class="list-style-none">
-                                            <li><a href="javascript:void(0)"><i class="fa fa-times text-danger"></i><b>Name:</b> {{$customer->surname}} {{$customer->otherName}} </a></li>
+                                            <li><a href="javascript:void(0)"><i class="fa fa-check text-danger"></i><b>Name:</b> {{$customer->surname}} {{$customer->otherName}} </a></li>
                                             <li><a href="javascript:void(0)"><i class="fa fa-check text-success"></i><b>Gender:</b> @if(!$customer->gender)Male @else Female @endif</a></li>
                                             <li><a href="javascript:void(0)"><i class="fa fa-check text-success"></i><b>Account No:</b><i> {{$customer->acct_no}}</i></a></li>
                                         </ul>
@@ -66,10 +66,11 @@
                 <ul class="nav nav-tabs profile-tab" role="tablist">
                     <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#home" role="tab">Transactions</a> </li>
                     <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#profile" role="tab">Loan Schedule</a> </li>
-                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#settings" role="tab">Summary</a> </li>
+                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#summary" role="tab">Summary</a> </li>
                     <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#settings" role="tab">Details</a> </li>
                     <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#settings" role="tab">Loan Collateral</a> </li>
-                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#settings" role="tab">Loan Files</a> </li>
+                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#guarantors" role="tab">Loan Guarantors</a> </li>
+                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#loan_files" role="tab">Loan Files</a> </li>
                     <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#settings" role="tab">Loan Comments</a> </li>
                 </ul>
                 <!-- Tab panes -->
@@ -116,51 +117,132 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane" id="settings" role="tabpanel">
-                        <div class="card-body">
-                            <form class="form-horizontal form-material">
-                                <div class="form-group">
-                                    <label class="col-md-12">Full Name</label>
-                                    <div class="col-md-12">
-                                        <input type="text" placeholder="John Doe" value="{{Auth::user()->name}}" class="form-control form-control-line">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="example-email" class="col-md-12">Email</label>
-                                    <div class="col-md-12">
-                                        <input type="email" placeholder="Zebra Theme@gmail.com" class="form-control form-control-line" value="{{Auth::user()->email}}" name="example-email" id="example-email">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-12">Phone No</label>
-                                    <div class="col-md-12">
-                                        <input type="text" placeholder="123 456 7890" class="form-control form-control-line">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-12">Message</label>
-                                    <div class="col-md-12">
-                                        <textarea rows="5" class="form-control form-control-line"></textarea>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-12">Select Skill Set
-                                    </label>
-                                    <div class="col-sm-12">
-                                        <select class="form-control form-control-line">
-                                                                        <option>London</option>
-                                                                        
-                                                                    </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <button class="btn btn-success">Update Profile</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
+                    <div class="tab-pane" id="loan_files" role="tabpanel">
+                            <div class="card-body">
+                                    <figure class="figure">
+                                            <img src="/img/id/{{$customer->customer_image_file['id_card']}}" class="figure-img img-fluid rounded" alt="A generic square placeholder image with rounded corners in a figure.">
+                                            <figcaption class="figure-caption text-right">Identification Card </figcaption>
+                                    </figure>
+                                    @foreach($customer->customer_doc_file as $files)
+                                    <figure class="figure">
+                                            <img src="/img/id/{{$files->doc}}" class="figure-img img-fluid rounded" alt="A generic square placeholder image with rounded corners in a figure.">
+                                            <figcaption class="figure-caption text-right">A caption for the above image.</figcaption>
+                                    </figure>
+                                    @endforeach
+                               
+                            </div>
                     </div>
+                    <div class="tab-pane" id="summary" role="tabpanel">
+                            <table class="table table-striped">
+                                    <thead>
+                                     
+                                    </thead>
+                                    <tbody>
+                                      <tr>
+                                        <th scope="row">Timely Repayments:</th>
+                                        <td>Mark</td>
+                                        <td>Otto</td>
+                                        <td>@mdo</td>
+                                      </tr>
+                                      <tr>
+                                        <th scope="row">Amount in Arrears:</th>
+                                        <td>Jacob</td>
+                                        <td>Thornton</td>
+                                        <td>@fat</td>
+                                      </tr>
+                                      <tr>
+                                        <th scope="row">Days in Arrears:</th>
+                                        <td>Larry</td>
+                                        <td>the Bird</td>
+                                        <td>@twitter</td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                  <hr>
+                        
+                            <table class="table table-striped table-dark" style="color:white">
+                                <thead>
+                                  <tr>
+                                    <th scope="col">Item:</th>
+                                    <th scope="col">Principal</th>
+                                    <th scope="col">Interest</th>
+                                    <th scope="col">Fees</th>
+                                    <th scope="col">Penalty</th>
+                                    <th scope="col">Total</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr>
+                                    <th scope="row">Total Due</th>
+                                    <td>Mark</td>
+                                    <td>Otto</td>
+                                    <td>@mdo</td>
+                                    <td>Mark</td>
+                                    <td>Otto</td>
+                                    
+                                  </tr>
+                                  <tr>
+                                    <th scope="row">Total Paid</th>
+                                    <td>Jacob</td>
+                                    <td>Thornton</td>
+                                    <td>@fat</td>
+                                    <td>Mark</td>
+                                    <td>Otto</td>
+                                    
+                                  </tr>
+                                  <tr>
+                                    <th scope="row">Balance</th>
+                                    <td colspan="2">Larry the Bird</td>
+                                    <td>@twitter</td>
+                                    <td>Mark</td>
+                                    <td>Otto</td>
+                                    
+                                  </tr>
+                                </tbody>
+                              </table>
+                        
+                    </div>
+                    <div class="tab-pane" id="guarantors" role="tabpanel">
+                            <div class="card-body">
+                                    <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                                            <thead>
+                                                    <tr>  <th>Name</th>
+                                                        <th>Phone</th>
+                                                        <th>Address</th>
+                                                        <th>Action</th>
+                    
+                                                        </tr>
+                                            </thead>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Phone</th>
+                                                    <th>Address</th>
+                                                    <th>Action</th>
+            
+                                                </tr>
+                                            </tfoot>
+                                            <tbody>
+                                                    @foreach ($customer->guarantor as $guarantor )
+                                                <tr>
+                                                        <td>{{$guarantor->name}}</td>
+                                                        <td>{{$guarantor->phone}}</td>
+                                                        <td>{{$guarantor->address}}</td>
+                                                        <td><a href="/guarantor/{{$guarantor->id}}/edit"><button class="btn btn-dark btn-rounded "><i class="fa fa-edit"></i></button></a>
+                                                            <a href=""><button class="btn btn-danger btn-rounded "><i class="fa fa-print"></i></button></a>
+                                                           <a href="/guarantor/{{$guarantor->id}}"><button class="btn btn-success btn-rounded "><i class="fa fa-eye"></i></button></a> </td>
+                                                    </tr> 
+                                                @endforeach
+                                               
+                                           
+                                            </tbody>
+                                        </table>
+                               
+                                   
+                              
+                            </div>
+                        </div>
+
                 </div>
             </div>
         </div>

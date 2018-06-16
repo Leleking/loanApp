@@ -73,3 +73,39 @@ function round(x) {
   return Math.round(x*100)/100;
 }
 
+/*
+
+*/
+function ajaxPostPayEmiFunction(to){
+    $.ajaxSetup({
+        headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+        });
+var data = $('form').serialize();
+$.ajax({
+type: "POST",
+url: to,
+data: data,
+beforeSend: function(){
+    swal('Loading...');
+},
+success: function(data) {
+    //swal("Good job!", data.response, "success");
+  swal('Great',data.response,'success');
+  //$('#reset').click();
+},
+error: function(errors,status,xhr){
+    var err = errors.responseJSON.errors;
+   $.each(err,function(key,value){
+    sweetAlert("Oops...", value+"!!", "error");
+   }) ;
+
+}
+
+
+
+
+   
+});
+};

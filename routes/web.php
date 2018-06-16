@@ -27,3 +27,7 @@ Route::get('/uploadGuarantorDocuments','pagesController@uploadGuarantorDocuments
 Route::get('uploadCustomerDocuments','pagesController@uploadCustomerDocuments')->name('uploadCustomerDocuments');
 Route::get('/addloan/{id}',['uses'=>'pagesController@addLoan']);
 Route::post('/addCustomerLoan','ajaxController@addCustomerLoan');
+Route::get('/approveLoan','pagesController@approveLoan')->name('Approve Loans');
+Route::post('/changeStatus','ajaxController@changeStatus');
+Route::post('/pay_emi','ajaxController@pay_emi');
+Route::post('/due_payment','ajaxController@due_payment');

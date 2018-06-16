@@ -21,14 +21,14 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="control-label">Loan Date</label>
-                                        <input type="date" name="date" id="name" class="form-control" >
+                                        <input type="date" name="loan_date" id="name" class="form-control" >
                                       </div>
                                 </div>
                                 <!--/span-->
                                 <div class="col-md-6">
                                     <div class="form-group has-danger">
                                         <label class="control-label">Principal Amount</label>
-                                        <input name="principal" onchange="calculate();" type="text" id="principal"  class="form-control form-control-danger" placeholder="">
+                                        <input name="principal" step="any" onchange="calculate();" type="number" id="principal"  class="form-control form-control-danger" placeholder="">
                                      </div>
                                 </div>
                                 <!--/span-->
@@ -37,14 +37,14 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="control-label">File Charge(%)</label>
-                                            <input type="number" name="file" id="file_charge" class="form-control" >
+                                            <input type="number" name="file" step="any" id="file_charge" class="form-control" >
                                           </div>
                                     </div>
                                     <!--/span-->
                                     <div class="col-md-6">
                                         <div class="form-group has-danger">
                                             <label class="control-label">Interest Rate(% per year)</label>
-                                            <input name="interest" type="text" onchange="calculate();" id="interest" class="form-control form-control-danger" placeholder="">
+                                            <input name="interest" type="number" step="any" onchange="calculate();" id="interest" class="form-control form-control-danger" placeholder="">
                                          </div>
                                     </div>
                                     <!--/span-->
@@ -53,25 +53,40 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="control-label">Time Period(ie years)</label>
-                                            <input type="text" name="years" onchange="calculate();" id="years" class="form-control" >
+                                            <input type="number" name="years" step="any" onchange="calculate();" id="years" class="form-control" >
                                           </div>
                                     </div>
                                     <!--/span-->
                                     <div class="col-md-6">
                                         <div class="form-group has-danger">
                                             <label class="control-label">Penalty(%)</label>
-                                            <input name="penalty" type="text" id="penalty" class="form-control form-control-danger" placeholder="">
+                                            <input name="penalty" type="number" step="any" id="penalty" class="form-control form-control-danger" placeholder="">
                                          </div>
                                     </div>
                                     <!--/span-->
                             </div>
                             <div class="row p-t-20">
                                     <div class="col-md-6">
+                                        <div class="row">
+                                                <div class="col-md-4">
                                             <div class="form-group">
                                                     <label class="control-label">EMI Type</label><br>
                                                     <input type="radio" name="emi_type"  value="0" class="" >Flat EMI <br>
                                                     <input type="radio" name="emi_type"  value="1" class="" >Reducing Balance
                                                   </div>
+                                                </div>
+                                                <div class="col-md-5">
+                                                        <label class="control-label">Choose Loan Type</label>
+                                                        <select name="loanType_id" class="form-control custom-select" data-placeholder="Choose a Loan Type" tabindex="1">
+                                                                @foreach($loan_type as $loan_types)
+                                                                
+                                                                <option value="{{$loan_types->id}}">{{$loan_types->name}}</option>
+                                                                
+                                                                @endforeach
+                                                                
+                                                            </select>    
+                                                </div>
+                                        </div>
                                     </div>
                                     <!--/span-->
                                     <div class="col-md-6">
@@ -79,15 +94,15 @@
                                             <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label for="ad_emi" class="control-label">Advanced EMI</label><br>
-                                                        <input type="radio" name="ad_emi" id="name" class="" >Yes <br>
-                                                        <input type="radio" name="ad_emi" id="name" class="" >No
+                                                        <input type="radio" name="ad_emi" id="name" value="1"ass="" >Yes <br>
+                                                        <input type="radio" name="ad_emi" id="name" value="0" class="" >No
                                                       </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label class="control-label">Payment Mode</label><br>
-                                                            <input type="radio" name="pay_mode" id="name" class="" >Cheque <br>
-                                                            <input type="radio" name="pay_mode" id="name" class="" >Bank
+                                                            <input type="radio" name="pay_mode" value="1" id="name" class="" >Cheque <br>
+                                                            <input type="radio" name="pay_mode" id="name" value="0" class="" >Bank
                                                           </div>
                                                     </div>
                                         </div>
@@ -101,14 +116,15 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="control-label">Monthly Paymentment</label>
-                                            <input type="number" name="payment" disabled id="payment" class="form-control" >
+                                            <input type="number" step="any" readonly name="payment"  id="payment" class="form-control" >
+                                           
                                           </div>
                                     </div>
                                     <!--/span-->
                                     <div class="col-md-6">
                                         <div class="form-group has-danger">
                                             <label class="control-label">Interest Amount per Year</label>
-                                            <input name="" disabled type="number" id="lastName" class="form-control form-control-danger" placeholder="">
+                                            <input name=""  type="number" id="lastName" class="form-control form-control-danger" placeholder="">
                                          </div>
                                     </div>
                                     <!--/span-->
@@ -117,15 +133,17 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="control-label">Total Interest Amount of Time Period</label>
-                                            <input type="number" name="totalinterest" disabled id="totalinterest" class="form-control" >
+                                            <input type="number" step="any" readonly name="totalinterest"  id="totalinterest" class="form-control" >
+                                           
                                           </div>
                                     </div>
                                     <!--/span-->
                                     <div class="col-md-6">
                                         <div class="form-group has-danger">
                                             <label class="control-label">Total Amount</label>
-                                            <input  name="total" disabled type="number" id="lastName" class="form-control form-control-danger" placeholder="">
-                                         </div>
+                                            <input  name="total" step="any" readonly type="number" id="lastName" class="form-control form-control-danger" placeholder="">
+                                            
+                                        </div>
                                     </div>
                                     <!--/span-->
                             </div>
@@ -133,14 +151,15 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="control-label">EMI Amount</label>
-                                            <input type="number" name="emi" disabled  id="name" class="form-control" >
+                                            <input type="number" readonly step="any" name="emi"   id="name" class="form-control" >
+                                            
                                           </div>
                                     </div>
                                     <!--/span-->
                                     <div class="col-md-6">
                                         <div class="form-group has-danger">
                                             <label class="control-label">Net Amount</label>
-                                            <input name="phone" type="number"disabled id="lastName" class="form-control form-control-danger" placeholder="">
+                                            <input name="phone" readonly type="number" id="lastName" class="form-control form-control-danger" placeholder="">
                                          </div>
                                     </div>
                                     <!--/span-->

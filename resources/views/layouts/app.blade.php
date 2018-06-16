@@ -118,10 +118,7 @@
                     <ul class="navbar-nav my-lg-0">
 
                         <!-- Search -->
-                        <li class="nav-item hidden-sm-down search-box"> <a class="nav-link hidden-sm-down text-muted  " href="javascript:void(0)"><i class="ti-search"></i></a>
-                            <form class="app-search">
-                                <input type="text" class="form-control" placeholder="Search here"> <a class="srh-btn"><i class="ti-close"></i></a> </form>
-                        </li>
+                       
                         <!-- Comment -->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-muted text-muted  " href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-bell"></i>
@@ -247,11 +244,7 @@
                     <ul id="sidebarnav">
                         <li class="nav-devider"></li>
                         <li class="nav-label">Home</li>
-                        <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-tachometer"></i><span class="hide-menu">Dashboard <span class="label label-rouded label-primary pull-right">2</span></span></a>
-                            <ul aria-expanded="false" class="collapse">
-                                <li><a href="index.html">Ecommerce </a></li>
-                                <li><a href="index1.html">Analytics </a></li>
-                            </ul>
+                        <li> <a    href="/home" aria-expanded="false"><i class="fa fa-tachometer"></i><span class="hide-menu">Dashboard</a>
                         </li>
                         <li class="nav-label">&nbsp;</li>
                         <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-bar-chart"></i><span class="hide-menu">Guarantors</span></a>
@@ -270,10 +263,13 @@
                             </ul>
                         </li>
                        
-                        <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-suitcase"></i><span class="hide-menu">Loans<span class="label label-rouded label-warning pull-right">6</span></span></a>
+                        <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-suitcase"></i><span class="hide-menu">Loans<span class="label label-rouded label-warning pull-right">{{count(App\loanType::all())}}</span></span></a>
                             <ul aria-expanded="false" class="collapse">
-                                <li><a href="ui-alert.html">Vehicle Loan</a></li>
-                                <li><a href="ui-button.html">Personal Loan</a></li>
+                                @foreach (App\loanType::all() as $loanTypes )
+                                <li><a href="/loanType/{{$loanTypes->id}}">{{$loanTypes->name}}</a></li>
+                                @endforeach
+                               
+                               
                                
                             </ul>
                         </li>
@@ -309,8 +305,8 @@
                        
                         <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-book"></i><span class="hide-menu">Settings<span class="label label-rouded label-success pull-right">8</span></span></a>
                             <ul aria-expanded="false" class="collapse">
-
-                                <li><a href="#" class="has-arrow">Authentication <span class="label label-rounded label-success">6</span></a>
+                                <li><a href="/approveLoan">Approve Loans</a></li>
+                                <li><a href="#" class="has-arrow">Loan<span class="label label-rounded label-success">6</span></a>
                                     <ul aria-expanded="false" class="collapse">
                                         <li><a href="page-login.html">Login</a></li>
                                         <li><a href="page-register.html">Register</a></li>

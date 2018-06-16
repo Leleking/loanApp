@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\customer;
+use App\loan;
+use App\payment;
 use Illuminate\Http\Request;
 use Nexmo\Laravel\Facade\Nexmo;
 class HomeController extends Controller
@@ -30,6 +32,7 @@ class HomeController extends Controller
             'text' => 'Thank You for registering with Loan Me'
         ]);
         */
+       
         return view('home');
     }
 }
