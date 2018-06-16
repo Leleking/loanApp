@@ -154,7 +154,7 @@
                                                 <td><span>{{$diff}}</span></td>
                                                 <td><a href="/customer/{{$customer->id}}"><button class="btn btn-success btn-rounded "><i class="fa fa-eye"></i></button></a>
                                                     <button id="message" customer="{{$customer->id}}" class="btn btn-dark btn-rounded "><i class="fa fa-envelope"></i></button>
-                                                    <button  class="btn btn-danger btn-rounded "><i class="fa fa-phone"></i></button>
+                                                    <button id="phone" customer="{{$customer->id}}" class="btn btn-danger btn-rounded "><i class="fa fa-phone"></i></button>
                                                 </td>
                                             </tr>
                                             @endif

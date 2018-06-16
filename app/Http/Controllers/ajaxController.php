@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Mail;
 use App\Mail\dueEmail;
+use Nexmo\Laravel\Facade\Nexmo;
 class ajaxController extends Controller
 {
     public function addCustomer(Request $request){
@@ -190,6 +191,23 @@ class ajaxController extends Controller
     }
     public function sendDueEmail($thisCustomer){
         Mail::to($thisCustomer['email'])->send(new dueEmail($thisCustomer));
+    }
+    public function due_payment_sms(Request $request){
+        if($request->ajax()){
+            //$request->id 
+            $customer = customer::findOrFail($request->id);
+            $loan = loan::where('customer_id',$customer->id)->orderBy('id','desc')->first();
+            $payment = payment::where('loan_id',$loan->id)->orderBy('id','desc')->first();
+            $payment = payment::find($payment->id);
+            $due_date = Carbon::parse($payment->due_date)->format('l jS \of F Y ');
+            $sms = 'Dear '.$customer->surname.' '.$customer->otherName. ', we hope to remind you of your loan payment of '.$loan->emi.'GHc which is due on the '.$due_date.'.We hope to see you soon. Thank You';
+            Nexmo::message()->send([
+                'to'   => '+233248574526',
+                'from' => 'KickStart',
+                'text' => $sms,
+            ]);
+              return response()->json(['response'=>'Reminder SMS Sent']);   
+          }
     }
 }
 

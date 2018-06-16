@@ -12,10 +12,9 @@
     <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
     <title>KickStart</title>
     <!-- Bootstrap Core CSS -->
-    <link href="/css/lib/bootstrap/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
-    <link href="/css/helper.css" rel="stylesheet">
-    <link href="/css/style.css" rel="stylesheet">
+   <style>
+   
+   </style>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:** -->
     <!--[if lt IE 9]>
@@ -35,9 +34,8 @@
         <div class="error-box">
             <div class="error-body text-center">
                 <h1>Dear {{$customer->surname}} {{$customer->otherName}}</h1>
-                <h3 class="text-uppercase">Forbiddon Error</h3>
-                <p class="text-muted m-t-30 m-b-30">Please try after some time</p>
-                <a class="btn btn-info btn-rounded waves-effect waves-light m-b-40" href="{{route('home')}}">Back to home</a> </div>
+               
+                <p class="text-muted m-t-30 m-b-30">You are reminded of your loan payment coming this</p>
             <footer class="footer text-center">&copy; KickStart Money Lending Services</footer>
         </div>
     </div>
