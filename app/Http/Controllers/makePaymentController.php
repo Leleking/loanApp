@@ -5,6 +5,7 @@ use App\payment;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\loan;
+use App\customer;
 class makePaymentController extends Controller
 {
     /**
@@ -76,6 +77,12 @@ class makePaymentController extends Controller
               $payment->status = 0;
           }
           $payment->save();
+          $undeposite = $request->penalty;
+         
+          $payment = payment::where('loan_id',$request->loan_id)->orderBy('id','desc')->get();
+          $loan = loan::where('id',$request->loan_id)->orderBy('id','desc')->first();
+          $customer = customer::find($loan['customer_id']);
+          return view('print.payment')->with('loan',$loan)->with('payment',$payment)->with('customer',$customer)->with('undeposite',$undeposite);
          
     }
 

@@ -117,7 +117,36 @@ class customerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request,[
+            'surname'=> 'required',
+            'otherName'=>'required',
+            'street'=>'required',
+            'birth'=>'required',
+            'phone'=>'required',
+            'street'=>'required',
+            'city'=>'required',
+            'address'=>'required',
+            'state'=>'required',
+            'postcode'=>'required',
+            'acct_no'=>'required',
+            'email'=>'required'
+          ]);
+          $customer = customer::find($id);
+          $customer->surname = $request->surname;
+          $customer->otherName= $request->otherName;
+          $customer->street = $request->street;
+          $customer->birth = $request->birth;
+          $customer->gender=$request->gender;
+          $customer->phone =$request->phone;
+          $customer->city = $request->city;
+          $customer->state = $request->state;
+          $customer->postcode=$request->postcode;
+          $customer->address=$request->address;
+          $customer->acct_no =$request->acct_no;
+          $customer->email=$request->email;
+          $customer->save();
+          return back()->withMessage("Customer successfully Updated");
+    
     }
 
     /**

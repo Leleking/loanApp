@@ -172,13 +172,6 @@
                                
                             </ul>
                         </li>
-						<li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-credit-card" style="color:red"></i><span class="hide-menu">Expenses<span class="label label-rouded label-danger pull-right">6</span></span></a>
-                            <ul aria-expanded="false" class="collapse">
-                                <li><a href="uc-calender.html">Manage Expenses</a></li>
-                                <li><a href="uc-datamap.html">Add Expenses</a></li>
-                               
-                            </ul>
-                        </li>
                         <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-wpforms"></i><span class="hide-menu">Branches</span></a>
                             <ul aria-expanded="false" class="collapse">
                                 <li><a href="/manageBranch">Manage Branches</a></li>

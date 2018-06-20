@@ -3,6 +3,8 @@
 <link rel="stylesheet" href="/css/lib/sweetalert/sweetalert.css">
 @endsection
 @section('content')
+@include('layouts.partials.error')
+@include('layouts.partials.success')
 <div class="container-fluid">
     <!-- Start Page Content -->
     <div class="row">
@@ -12,7 +14,8 @@
                     <h4 class="m-b-0 text-white">Edit Customer<small> {{$customer->otherName}} {{$customer->surname}}</small></h4>
                 </div>
                 <div class="card-body">
-                    <form action="#">
+                      {!!  Form::open(['action' => ['customerController@update', $customer->id]])!!}
+                      <input type="hidden" name="_method" value="PUT">
                         <div class="form-body">
                             <h3 class="card-title m-t-15">Customer Detail</h3>
                             <hr>
@@ -116,7 +119,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Postal Address</label>
-                                       <textarea name="address" id="address" value="{{$customer->address}}" class="form-control"></textarea>
+                                        <textarea name="address" id="address"  class="form-control">{{$customer->address}}</textarea>
                                     </div>
                                 </div>
                                 <!--/span-->
@@ -153,16 +156,7 @@
 @endsection
 @section('js') 
 <script>
-    $(document).ready(function(){
-    $('#submit').click(function(e){
-        e.preventDefault();
-       if(ajaxPostFunction('/addCustomer')) {
-        $('#progressbar').css('width','80%');
-       }
-        
     
-    })
-    })
     document.getElementById("birth").defaultValue = "<?php echo $birth?>";
 </script>
 <script scr="/js/main.js"></script>   
