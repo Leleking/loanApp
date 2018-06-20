@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','verifyToken','isAdmin','branch_id'
+        'name', 'email', 'password','verifyToken','isAdmin','branch_id','image'
     ];
 
     /**
@@ -31,5 +31,8 @@ class User extends Authenticatable
     }
     public function branch(){
         return $this->belongsTo('App\branch');
+    }
+    public function isAdmin(){
+        return $this->isAdmin;
     }
 }

@@ -7,6 +7,7 @@ use App\customer;
 use App\loan;
 use App\payment;
 use App\customer_image_file;
+use Carbon\Carbon;
 class customerController extends Controller
 {
     /**
@@ -17,9 +18,11 @@ class customerController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('isStatus');
     }
     public function index()
     {
+        
         return view('customer.index');
     }
 
@@ -100,7 +103,9 @@ class customerController extends Controller
      */
     public function edit($id)
     {
-        //
+        $customer = customer::find($id);
+        $birth = Carbon::parse($customer->birth)->format('Y-m-d');
+        return view('customer.edit')->with('customer',$customer)->with('birth',$birth);
     }
 
     /**

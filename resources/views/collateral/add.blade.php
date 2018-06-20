@@ -3,7 +3,8 @@
 <link rel="stylesheet" href="/css/imagePreview.css">
 @endsection
 @section('content')
-{!!Form::open(['action'=>'customerController@store','method'=>'POST','files'=>true])!!}
+@include('layouts.partials.success')
+{!!Form::open(['action'=>'collateralController@store','method'=>'POST','files'=>true])!!}
 <div class="row">
 
     <div class="col-lg-4">
@@ -32,6 +33,22 @@
                     </div>
                     
              </div>
+             <div class="form-group">
+                    <label class="control-label">Collateral Name</label>
+                    <input type="text" name="name" class="form-control">
+                   
+                 </div>
+            
+            <div class="form-group">
+                    <label class="control-label">Collateral Details</label>
+                    <input type="text" name="about" class="form-control">
+                   
+                 </div>
+                 <div class="form-group">
+                    <label class="control-label">Extra Documents</label>
+                    <input  type="file" name="docs" class="form-control">
+                   
+                 </div>
              <div class="form-actions">
                 <button type="submit" id="submit"  class="btn btn-success btn-rounded"> <i class="fa fa-check"></i>Upload</button>
             </div>
@@ -69,7 +86,7 @@
                         
                         <div id="image-preview">
                           <label for="image-upload" id="image-label">Choose File</label>
-                          <input type="file" name="scan" id="image-upload" required />
+                          <input type="file" name="scan" id="image-upload"  />
                         </div>
                 </div>
             </div>

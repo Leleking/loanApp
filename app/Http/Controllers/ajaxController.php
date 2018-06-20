@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\collateral;
 use App\customer;
 use App\User;
 use App\branch;
@@ -16,6 +17,11 @@ use App\Mail\dueEmail;
 use Nexmo\Laravel\Facade\Nexmo;
 class ajaxController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('isStatus');
+    }
     public function addCustomer(Request $request){
         if($request->ajax()){
             $this->validate($request,[
@@ -303,6 +309,49 @@ class ajaxController extends Controller
             'created_at'=>$created_at,
             ]);
         }
+    }
+    public function collateralEdit(Request $request){
+        if($request->ajax()){
+           
+            $collateral = collateral::find($request->id);
+            $created_at = Carbon::parse($collateral->created_at)->format('l jS \of F Y ');
+            return response()->json([
+            'name'=>$collateral->name,
+            'id'=>$collateral->id,
+            'about'=>$collateral->about,
+            'docs'=>$collateral->docs,
+            'scan'=>$collateral->scan,
+            'created_at'=>$created_at,
+            ]);
+        }
+    }
+    public function changeUserStatus(Request $request){
+        if($request->ajax()){
+        
+          
+          
+            $user = User::find($request->id);
+            if($user->status){
+                $user->status = 0;
+                $user->save();
+                return response()->json(['response'=>'User has been deactivated']);
+              }else
+              {
+                $user->status = 1;
+                $user->save();
+                
+                return response()->json(['response'=>'User has been activated']);
+              }
+              
+             
+           
+      
+        
+  
+         
+         
+        
+          }
     }
 }
 

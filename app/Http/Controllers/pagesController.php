@@ -7,16 +7,18 @@ use App\guarantor;
 use App\loan;
 use App\loanType;
 use App\branch;
+use App\collateral;
 use Illuminate\Http\Request;
 
 
 class pagesController extends Controller
-{
+{  
     public function __construct()
     {
         $this->middleware('auth');
-    }
-    public function index(){
+        $this->middleware('isStatus');
+    }  
+     public function index(){
         return redirect('/home');
     }
     public function manageCustomers(){
@@ -62,7 +64,7 @@ class pagesController extends Controller
     }
     public function manageUsers(){
         $users = User::all();
-        return view('user.manageUsers')->with('users',$users);
+        return view('auth.user.manageUser')->with('users',$users);
     }
     public function manageGuarantors(){
         $guarantor = guarantor::all();
@@ -77,7 +79,13 @@ class pagesController extends Controller
         return view('branch.manageBranch')->with('branch',$branch);
     }
     public function manageCollateral(){
-
+        $id = auth()->user()->id;
+        if(!auth()->user()->isAdmin){
+            $customer = $customer = customer::where('user_id',$id)->orderBy('id','asc')->get();
+        }else{
+            $customer = $customer = customer::all();
+        }
+        return view('collateral.manage')->with('customer',$customer);
     }
     public function addCollateral(){
         $id = auth()->user()->id;

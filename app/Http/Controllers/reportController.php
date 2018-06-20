@@ -17,6 +17,11 @@ use Nexmo\Laravel\Facade\Nexmo;
 
 class reportController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('isStatus');
+    }
     public function running(){
         $id = auth()->user()->isAdmin;
         //get the current id of the user

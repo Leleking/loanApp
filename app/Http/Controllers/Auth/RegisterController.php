@@ -25,7 +25,11 @@ class RegisterController extends Controller
     */
 
     use RegistersUsers;
-
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('isStatus');
+    }
     /**
      * Where to redirect users after registration.
      *
@@ -46,6 +50,7 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
+
     protected function validator(array $data)
     {
         return Validator::make($data, [
@@ -63,6 +68,13 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         $password = substr(str_shuffle('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789') , 0 , 10 );
+        $image = $data['image'];
+        if($image){
+            $imagename=$image->getClientOriginalName();
+            $image->move('img/users',$imagename);
+            $image= $imagename;
+
+        }
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
@@ -70,6 +82,7 @@ class RegisterController extends Controller
             'verifyToken' => Str::random(40),
             'isAdmin'=>$data['admin'],
             'branch_id'=>$data['branch'],
+            'image'=>$image,
         ]);
         $thisUser = User::findOrFail($user->id);
         $this->sendEmail($thisUser,$password);

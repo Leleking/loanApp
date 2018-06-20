@@ -24,6 +24,7 @@ Route::get('/manageCustomers','pagesController@manageCustomers')->name('manageCu
 Route::resource('/guarantor','guarantorController');
 Route::post('/addGuarantor','ajaxController@addGuarantor');
 Route::post('/guarantorEdit','ajaxController@guarantorEdit');
+Route::post('/collateralEdit','ajaxController@collateralEdit');
 Route::get('manageGuarantors','pagesController@manageGuarantors')->name('Manage Guarantors');
 Route::get('/uploadGuarantorDocuments','pagesController@uploadGuarantorDocuments')->name('uploadGuarantorDocuments');
 Route::get('uploadCustomerDocuments','pagesController@uploadCustomerDocuments')->name('uploadCustomerDocuments');
@@ -31,6 +32,7 @@ Route::get('/addloan/{id}',['uses'=>'pagesController@addLoan']);
 Route::post('/addCustomerLoan','ajaxController@addCustomerLoan'); 
 Route::get('/approveLoan','pagesController@approveLoan')->name('Approve Loans');
 Route::post('/changeStatus','ajaxController@changeStatus');
+Route::post('/changeUserStatus','ajaxController@changeUserStatus');
 Route::post('/pay_emi','ajaxController@pay_emi');
 Route::post('/due_payment','ajaxController@due_payment');
 Route::post('/due_payment_sms','ajaxController@due_payment_sms');
@@ -43,6 +45,7 @@ Route::get('manageLoanType','pagesController@manageLoanType')->name('Manage All 
 Route::post('/ajaxAddLoanType','ajaxController@addLoanType');
 Route::get('manageUsers','pagesController@manageUsers');
 Route::post('updateGuarantor','updateController@updateGuarantor');
+Route::post('updateCollateral','updateController@updateCollateral');
 Route::get('runningLoans','reportController@running');
 Route::get('/invoice/running/{id}','invoiceController@running')->name('Invoice');
 Route::get('/print/invoice/running/{id}','invoiceController@printRunning');

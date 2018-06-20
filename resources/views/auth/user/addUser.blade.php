@@ -1,5 +1,7 @@
 @extends('layouts.app')
-
+@section('css')
+<link rel="stylesheet" href="/css/imagePreview.css">
+@endsection
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -8,7 +10,7 @@
                 <div class="card-header">{{ __('Register') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
+                    <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
                         @csrf
 
                         <div class="form-group row">
@@ -61,6 +63,43 @@
                             </div>
                            
                         </div>
+                        <div class="form-group row">
+                                <label for="admin" class="col-md-4 col-form-label text-md-right">Add User Image</label>
+                                <div class="">
+                                        <div class="card">
+                                            <div class="todo-list">
+                                                <div class="tdl-holder">
+                                                    <div class="tdl-content">
+                                                        <ul>
+                                                            <li class="color-primary">
+                                                                <label>
+                                                                <i class="bg-primary"></i><span>Upload Photo</span>
+                                                                <a href='#' class="ti-close"></a>
+                                                            </label>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <script type="text/javascript">
+                                                        $(document).ready(function() {
+                                                          $.uploadPreview({
+                                                            input_field: "#passport-upload",
+                                                            preview_box: "#passport-preview",
+                                                            label_field: "#passport-label"
+                                                          });
+                                                        });
+                                                        </script>
+                                                        
+                                                        <div id="passport-preview">
+                                                          <label for="passport-upload" id="passport-label">Choose File</label>
+                                                          <input type="file" name="image" id="passport-upload" />
+                                                        </div>
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                               
+                            </div>
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
@@ -75,4 +114,7 @@
         </div>
     </div>
 </div>
+@endsection
+@section('js')
+<script type="text/javascript" src="/js/jquery.uploadPreview.min.js"></script>
 @endsection

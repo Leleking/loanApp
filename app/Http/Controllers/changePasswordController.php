@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 
 class changePasswordController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function postChangePassword(Request $request)
     {
         $validatedData = $request->validate([

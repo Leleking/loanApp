@@ -13,6 +13,7 @@ class invoiceController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('isStatus');
     }
     public function running($id){
         $customer = customer::find($id);

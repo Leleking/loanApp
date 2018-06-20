@@ -69,13 +69,10 @@
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs profile-tab" role="tablist">
                     <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#transactions" role="tab">Transactions</a> </li>
-                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#profile" role="tab">Loan Schedule</a> </li>
                     <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#summary" role="tab">Summary</a> </li>
-                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#settings" role="tab">Details</a> </li>
-                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#settings" role="tab">Loan Collateral</a> </li>
+                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#details" role="tab">Details</a> </li>
+                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#collateral" role="tab">Loan Collateral</a> </li>
                     <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#guarantors" role="tab">Loan Guarantors</a> </li>
-                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#loan_files" role="tab">Loan Files</a> </li>
-                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#settings" role="tab">Loan Comments</a> </li>
                 </ul>
                 <!-- Tab panes -->
                 <div class="tab-content">
@@ -130,7 +127,7 @@
                                 </div>
                             </div>
                     <!--second tab-->
-                    <div class="tab-pane" id="profile" role="tabpanel">
+                    <div class="tab-pane" id="details" role="tabpanel">
                         <div class="card-body">
                            
                             <hr>
@@ -160,19 +157,40 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane" id="loan_files" role="tabpanel">
+                    
+                    <div class="tab-pane" id="collateral" role="tabpanel">
                             <div class="card-body">
-                                    <figure class="figure">
-                                            <img src="/img/id/{{$customer->customer_image_file['id_card']}}" class="figure-img img-fluid rounded" alt="A generic square placeholder image with rounded corners in a figure.">
-                                            <figcaption class="figure-caption text-right">Identification Card </figcaption>
-                                    </figure>
-                                    @foreach($customer->customer_doc_file as $files)
-                                    <figure class="figure">
-                                            <img src="/img/id/{{$files->doc}}" class="figure-img img-fluid rounded" alt="A generic square placeholder image with rounded corners in a figure.">
-                                            <figcaption class="figure-caption text-right">A caption for the above image.</figcaption>
-                                    </figure>
-                                    @endforeach
-                               
+                                   
+                                    
+                                    <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                                            <thead>
+                                                    <tr>
+                                                            <th>Collateral Name</th>
+                                                            <th>Collateral Detail</th>
+                                                            <th>Collateral docs</th>
+                                                            <th>Collateral Scanned</th>
+                                                        </tr>
+                                            </thead>
+                                            <tbody>
+                                              
+                                                @foreach ($customer->collateral as $collateral )
+                                               
+                                                <tr>
+                                                      <td>{{$collateral->name}}</td>
+                                                      <td>{{$collateral->about}}</td>
+                                                      <td><a href="/img/collateral/{{$collateral->docs}}" target="_blank">{{$collateral->docs}}</a></td>
+                                                      <td><a href="/img/collateral/{{$collateral->scan}}" target="_blank">{{$collateral->scan}}</a></td>
+                                                       
+                                                       
+                                                       
+                                                    </tr> 
+                                                    @endforeach
+                                              
+                                               
+                                           
+                                            </tbody>
+                                        </table>
+                                   
                             </div>
                     </div>
                     <?php
@@ -251,7 +269,7 @@
                                       </tr>
                                       
                                     </tbody>
-                                  </table>
+                            </table>
                                   <hr>
                         
                            
@@ -264,7 +282,7 @@
                                                     <tr>  <th>Name</th>
                                                         <th>Phone</th>
                                                         <th>Address</th>
-                                                        <th>Action</th>
+                                                       
                     
                                                         </tr>
                                             </thead>
@@ -273,7 +291,7 @@
                                                     <th>Name</th>
                                                     <th>Phone</th>
                                                     <th>Address</th>
-                                                    <th>Action</th>
+                                                   
             
                                                 </tr>
                                             </tfoot>
@@ -283,10 +301,7 @@
                                                         <td>{{$guarantor->name}}</td>
                                                         <td>{{$guarantor->phone}}</td>
                                                         <td>{{$guarantor->address}}</td>
-                                                        <td><a href="/guarantor/{{$guarantor->id}}/edit"><button class="btn btn-dark btn-rounded "><i class="fa fa-edit"></i></button></a>
-                                                            <a href=""><button class="btn btn-danger btn-rounded "><i class="fa fa-print"></i></button></a>
-                                                           <a href="/guarantor/{{$guarantor->id}}"><button class="btn btn-success btn-rounded "><i class="fa fa-eye"></i></button></a> </td>
-                                                    </tr> 
+                                                       
                                                 @endforeach
                                                
                                            
