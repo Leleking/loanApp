@@ -1,1 +1,1 @@
-<h1>Verify Email to Activate Account</h1>
+<h1>User must Verify Email to Activate Account <a href="{{route('home')}}">Go Back</a> </h1>

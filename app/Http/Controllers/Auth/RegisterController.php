@@ -38,10 +38,7 @@ class RegisterController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('guest');
-    }
+   
 
     /**
      * Get a validator for an incoming registration request.
@@ -54,7 +51,6 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
         ]);
     }
 
@@ -66,18 +62,21 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $password = substr(str_shuffle('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789') , 0 , 10 );
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+            'password' => Hash::make($password),
             'verifyToken' => Str::random(40),
+            'isAdmin'=>$data['admin'],
+            'branch_id'=>$data['branch'],
         ]);
         $thisUser = User::findOrFail($user->id);
-        $this->sendEmail($thisUser);
+        $this->sendEmail($thisUser,$password);
         return $user;
     }
-    public function sendEmail($thisUser){
-        Mail::to($thisUser['email'])->send(new verifyEmail($thisUser));
+    public function sendEmail($thisUser,$password){
+        Mail::to($thisUser['email'])->send(new verifyEmail($thisUser,$password));
     }
     public function verifyEmail(){
         return view('email.verifyEmail');

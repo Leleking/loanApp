@@ -169,53 +169,7 @@
                         </li>
                         <!-- End Comment -->
                         <!-- Messages -->
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-muted  " href="#" id="2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-envelope"></i>
-								<div class="notify"> <span class="heartbit"></span> <span class="point"></span> </div>
-							</a>
-                            <div class="dropdown-menu dropdown-menu-right mailbox animated zoomIn" aria-labelledby="2">
-                                <ul>
-                                    <li>
-                                        <div class="drop-title">You have 4 new messages</div>
-                                    </li>
-                                    <li>
-                                        <div class="message-center">
-                                            <!-- Message -->
-                                            <a href="#">
-                                                <div class="user-img"> <img src="images/users/5.jpg" alt="user" class="img-circle"> <span class="profile-status online pull-right"></span> </div>
-                                                <div class="mail-contnet">
-                                                    <h5>Michael Qin</h5> <span class="mail-desc">Just see the my admin!</span> <span class="time">9:30 AM</span>
-                                                </div>
-                                            </a>
-                                            <!-- Message -->
-                                            <a href="#">
-                                                <div class="user-img"> <img src="images/users/2.jpg" alt="user" class="img-circle"> <span class="profile-status busy pull-right"></span> </div>
-                                                <div class="mail-contnet">
-                                                    <h5>John Doe</h5> <span class="mail-desc">I've sung a song! See you at</span> <span class="time">9:10 AM</span>
-                                                </div>
-                                            </a>
-                                            <!-- Message -->
-                                            <a href="#">
-                                                <div class="user-img"> <img src="images/users/3.jpg" alt="user" class="img-circle"> <span class="profile-status away pull-right"></span> </div>
-                                                <div class="mail-contnet">
-                                                    <h5>Mr. John</h5> <span class="mail-desc">I am a singer!</span> <span class="time">9:08 AM</span>
-                                                </div>
-                                            </a>
-                                            <!-- Message -->
-                                            <a href="#">
-                                                <div class="user-img"> <img src="images/users/4.jpg" alt="user" class="img-circle"> <span class="profile-status offline pull-right"></span> </div>
-                                                <div class="mail-contnet">
-                                                    <h5>Michael Qin</h5> <span class="mail-desc">Just see the my admin!</span> <span class="time">9:02 AM</span>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <a class="nav-link text-center" href="javascript:void(0);"> <strong>See all e-Mails</strong> <i class="fa fa-angle-right"></i> </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
+                       
                         <!-- End Messages -->
                         <!-- Profile -->
                         <li class="nav-item dropdown">
@@ -247,14 +201,7 @@
                         <li> <a    href="/home" aria-expanded="false"><i class="fa fa-tachometer"></i><span class="hide-menu">Dashboard</a>
                         </li>
                         <li class="nav-label">&nbsp;</li>
-                        <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-bar-chart"></i><span class="hide-menu">Guarantors</span></a>
-                            <ul aria-expanded="false" class="collapse">
-                                <li><a href="">Manage Guarantors</a></li>
-                                <li><a href="/guarantor/create">Add New Guarantor</a></li>
-                                <li><a href="{{route('uploadGuarantorDocuments')}}">Upload Guarantor Documents</a></li>
-                            </ul>
-                        </li>
-                        <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-envelope"></i><span class="hide-menu">Customers</span></a>
+                        <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-user" aria-hidden="true"></i><span class="hide-menu">Customers</span></a>
                             <ul aria-expanded="false" class="collapse">
                                 <li><a href="{{route('manageCustomers')}}">Manage Customers</a></li>
                                 <li><a href="email-read.html">Manage Defaulters</a></li>
@@ -262,7 +209,14 @@
                                 <li><a href="{{route('uploadCustomerDocuments')}}">Upload Customer Documents</a></li>
                             </ul>
                         </li>
-                       
+                        
+                        <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-user" aria-hidden="true"></i><span class="hide-menu">Guarantors</span></a>
+                            <ul aria-expanded="false" class="collapse">
+                                <li><a href="/manageGuarantors">Manage Guarantors</a></li>
+                                <li><a href="/guarantor/create">Add New Guarantor</a></li>
+                                <li><a href="{{route('uploadGuarantorDocuments')}}">Upload Guarantor Documents</a></li>
+                            </ul>
+                        </li>
                         <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-suitcase"></i><span class="hide-menu">Loans<span class="label label-rouded label-warning pull-right">{{count(App\loanType::all())}}</span></span></a>
                             <ul aria-expanded="false" class="collapse">
                                 @foreach (App\loanType::all() as $loanTypes )
@@ -273,7 +227,7 @@
                                
                             </ul>
                         </li>
-						<li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-suitcase"></i><span class="hide-menu">Expenses<span class="label label-rouded label-danger pull-right">6</span></span></a>
+						<li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-credit-card" style="color:red"></i><span class="hide-menu">Expenses<span class="label label-rouded label-danger pull-right">6</span></span></a>
                             <ul aria-expanded="false" class="collapse">
                                 <li><a href="uc-calender.html">Manage Expenses</a></li>
                                 <li><a href="uc-datamap.html">Add Expenses</a></li>
@@ -282,67 +236,64 @@
                         </li>
                         <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-wpforms"></i><span class="hide-menu">Branches</span></a>
                             <ul aria-expanded="false" class="collapse">
-                                <li><a href="form-basic.html">Manage Branches</a></li>
-                                <li><a href="form-layout.html">Add Branch</a></li>
+                                <li><a href="/manageBranch">Manage Branches</a></li>
+                                <li><a href="/addBranch">Add Branch</a></li>
                                
                             </ul>
                         </li>
-                        <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-table"></i><span class="hide-menu">Capital Account</span></a>
+                        <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-table"></i><span class="hide-menu"> Account</span></a>
                             <ul aria-expanded="false" class="collapse">
+                                <!--
                                 <li><a href="table-bootstrap.html">Manage Capital Received</a></li>
                                 <li><a href="table-datatable.html">Manage Capital Return</a></li>
+                                -->
                             </ul>
                         </li>
                        
                         <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-columns"></i><span class="hide-menu">Bank Book</span></a>
+                             <!--
                             <ul aria-expanded="false" class="collapse">
+                              
                                 <li><a href="layout-blank.html">Manage Bank Deposits</a></li>
                                 <li><a href="layout-boxed.html">Manage Bank Withdrawls</a></li>
                                 <li><a href="layout-fix-header.html">Ledger</a></li>
                                 <li><a href="layout-fix-sidebar.html">Bank Sheet</a></li>
+                              
                             </ul>
+                              -->
                         </li>
                        
-                        <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-book"></i><span class="hide-menu">Settings<span class="label label-rouded label-success pull-right">8</span></span></a>
+                       
+                        <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-building" aria-hidden="true"></i><span class="hide-menu">Collateral</span></a>
+                            <ul aria-expanded="false" class="collapse">
+                                <li><a href="/collateral/manage">Manage Collateral</a></li>
+                                <li><a href="/collateral/add">Add collateral</a></li>
+                            </ul>
+                        </li>
+                        <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-bar-chart"></i></i><span class="hide-menu">Reports</span></a>
+                            <ul aria-expanded="false" class="collapse">
+                                <li><a href="/runningLoans">Running Loans</a></li>
+                               
+                            </ul>
+                        </li>
+                        <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-gear"></i><span class="hide-menu">Settings<span class="label label-rouded label-success pull-right">8</span></span></a>
                             <ul aria-expanded="false" class="collapse">
                                 <li><a href="/approveLoan">Approve Loans</a></li>
-                                <li><a href="#" class="has-arrow">Loan<span class="label label-rounded label-success">6</span></a>
+                                <li><a href="#" class="has-arrow">Users<span class="label label-rounded label-success">2</span></a>
                                     <ul aria-expanded="false" class="collapse">
-                                        <li><a href="page-login.html">Login</a></li>
-                                        <li><a href="page-register.html">Register</a></li>
-                                        <li><a href="page-invoice.html">Invoice</a></li>
+                                        <li><a href="/admin/users/add">Add Users</a></li>
+                                        <li><a href="/admin/users/manage">Manage User</a></li>
+                                        
                                     </ul>
                                 </li>
-                                <li><a href="#" class="has-arrow">Error Pages</a>
+                                <li><a href="#" class="has-arrow">Loan</a>
                                     <ul aria-expanded="false" class="collapse">
-                                        <li><a href="page-error-400.html">400</a></li>
-                                        <li><a href="page-error-403.html">403</a></li>
-                                        <li><a href="page-error-404.html">404</a></li>
-                                        <li><a href="page-error-500.html">500</a></li>
-                                        <li><a href="page-error-503.html">503</a></li>
+                                        <li><a href="/addLoanType">Add Loan</a></li>
+                                        <li><a href="/manageLoanType">Manage loan</a></li>
+                                        
                                     </ul>
                                 </li>
-                            </ul>
-                        </li>
-                        <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-map-marker"></i><span class="hide-menu">Collateral</span></a>
-                            <ul aria-expanded="false" class="collapse">
-                                <li><a href="map-google.html">Google</a></li>
-                                <li><a href="map-vector.html">Vector</a></li>
-                            </ul>
-                        </li>
-                        <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-chart"></i><span class="hide-menu">Reports</span></a>
-                            <ul aria-expanded="false" class="collapse">
-                                <li><a href="#">item 1.1</a></li>
-                                <li><a href="#">item 1.2</a></li>
-                                <li> <a class="has-arrow" href="#" aria-expanded="false">Menu 1.3</a>
-                                    <ul aria-expanded="false" class="collapse">
-                                        <li><a href="#">item 1.3.1</a></li>
-                                        <li><a href="#">item 1.3.2</a></li>
-                                        <li><a href="#">item 1.3.3</a></li>
-                                        <li><a href="#">item 1.3.4</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="#">item 1.4</a></li>
+                                <li><a href="/changePassword">Change Password</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -357,7 +308,7 @@
             <!-- Bread crumb -->
             <div class="row page-titles">
                 <div class="col-md-5 align-self-center">
-                    <h3 class="text-primary">Dashboard</h3> </div>
+                    <h3 class="text-primary">{{Route::currentRouteName()}}</h3> </div>
                 <div class="col-md-7 align-self-center">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>

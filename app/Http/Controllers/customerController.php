@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\customer;
+use App\loan;
+use App\payment;
 use App\customer_image_file;
 class customerController extends Controller
 {
@@ -12,6 +14,10 @@ class customerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function index()
     {
         return view('customer.index');
@@ -76,7 +82,13 @@ class customerController extends Controller
     public function show($id)
     {
         $customer = customer::find($id);
-        return view('customer.profile')->with('customer',$customer);
+        $loan = loan::where('customer_id',$customer->id)->orderBy('id','desc')->first();
+        $payment_last = payment::where('loan_id',$loan->id)->orderBy('id','desc')->first();
+        $payment = payment::where('loan_id',$loan->id)->orderBy('id','desc')->get();
+        $loan = loan::where('customer_id',$customer->id)->orderBy('id','asc')->get();
+       
+       
+        return view('customer.profile')->with('customer',$customer)->with('loan',$loan)->with('payment_last',$payment_last)->with('payment',$payment);
         
     }
 

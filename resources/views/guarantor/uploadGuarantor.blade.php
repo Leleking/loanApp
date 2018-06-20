@@ -3,6 +3,7 @@
 <link rel="stylesheet" href="/css/imagePreview.css">
 @endsection
 @section('content')
+@include('layouts.partials.success')
 {!!Form::open(['action'=>'guarantorController@store','method'=>'POST','files'=>true])!!}
 <div class="row">
 

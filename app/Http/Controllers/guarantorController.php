@@ -15,6 +15,10 @@ class guarantorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function index()
     {
        
@@ -59,15 +63,23 @@ class guarantorController extends Controller
             $id_card = $imagename;
 
         }
-        
+        $guarantor = guarantor_image_file::where('guarantor_id',$request->input('guarantor_id'))->orderBy('id','desc')->first();
+        if($guarantor){
+            $guarantor = guarantor_image_file::find($guarantor->id);
+            $guarantor->passport = $passport;
+            $guarantor->id_card=$id_card;
+            $guarantor->save();
+            return back()->withMessage("Guarantor's Image Information Successfully Updated");
+        }else{
         //
         $guarantor = new guarantor_image_file;
         $guarantor->guarantor_id = $request->input('guarantor_id');
         $guarantor->passport = $passport;
         $guarantor->id_card=$id_card;
         $guarantor->save();
-        
-        return redirect()->back();
+        return back()->withMessage("Guarantor's Image Information Added Successfully");
+        }
+       
         
     }
 
@@ -79,7 +91,7 @@ class guarantorController extends Controller
      */
     public function show($id)
     {
-        //
+        
     }
 
     /**
@@ -102,7 +114,18 @@ class guarantorController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $guarantor = guarantor::findOrFail($id);
+
+        $this->validate($request, [
+            'name' => 'required',
+            'address' => 'required'
+        ]);
+    
+       
+    
+       // Session::flash('flash_message', 'Task successfully added!');
+    
+        return redirect()->back();
     }
 
     /**

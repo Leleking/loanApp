@@ -6,6 +6,12 @@
 @section('content')
 <div class="container-fluid">
         <!-- Start Page Content -->
+        <div>
+                @if($errors)
+                   @include('layouts.partials.error')
+                
+                @endif
+            </div>
         <div class="row">
             <div class="col-12">
                 <div class="card">
@@ -64,18 +70,21 @@
                                             <td>{{$loan['interest']}}%</td>
                                             <td>{{$loan['emi']}}</td>
                                             <td>{{$payment['remaining_emi']}}</td>
-                                            @if($loan)
+                                            @if($loan && !$loan['cleared'])
                                             <td><a href="/viewloan/{{$customers->id}}"> View Loan</a></td>
                                             @else
                                             <td><a href="/addloan/{{$customers->id}}"> Add Loan</a></td>
                                             @endif
-                                            @if($loan['status'] && $payment)
+                                            @if($loan['cleared'])
+                                            <td>Closed</td>
+                                           @elseif(!$loan['status'])
+                                            <td></td>
+                                            @elseif($loan['status'] && $payment)
                                             <td><a href="" customer="{{$customers->id}}"  class="trigger"><button class="btn btn-dark btn-rounded "><i class="fa fa-credit-card"></i></button></a></td>
-                                           @else
+                                            @else
                                             <td></td>
                                            @endif
                                             <td><a href="/customer/{{$customers->id}}/edit"><button class="btn btn-dark btn-rounded "><i class="fa fa-edit"></i></button></a>
-                                                <a href=""><button class="btn btn-danger btn-rounded "><i class="fa fa-print"></i></button></a>
                                                <a href="/customer/{{$customers->id}}"><button class="btn btn-success btn-rounded "><i class="fa fa-eye"></i></button></a> </td>
                                         </tr> 
                                     @endforeach
@@ -90,12 +99,12 @@
         </div>
        <!-- Button trigger modal -->
 <!-- Modal structure -->
-<div id="modal"data-iziModal-fullscreen="true"  data-iziModal-title="Pay EMI"  data-iziModal-subtitle="Please be sure to get all the right data before making a payment"  data-iziModal-icon="icon-credit-card" >
+<div id="modal"data-iziModal-fullscreen="true" hidden data-iziModal-title="Pay EMI"  data-iziModal-subtitle="Please be sure to get all the right data before making a payment"  data-iziModal-icon="icon-credit-card" >
     <div class="">
             <div class="card-body">
-                    <form action="#" name="loandata">
+                    {!!Form::open(['action'=>'makePaymentController@store','method'=>'POST', 'name'=>'loandata'])!!}
                         <div class="form-body">
-                            <h3 class="card-title m-t-15">Customer Detail</h3>
+                            <h3 class="card-title m-t-15">Customer Detail <img id="loader" src="/img/loader.gif" alt=""></h3>
                             <hr>
                             <div class="row p-t-20">
                                 <div class="col-md-6">
@@ -150,7 +159,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="control-label">Undeposited Penalty Amount</label>
-                                                    <input type="text"  name="undeposited_penalty" id="name" class="form-control" >
+                                                    <input type="text" required  name="undeposited_penalty" id="name" class="form-control" >
                                                     </div>
                                             </div>
                                             <!--/span-->
@@ -167,7 +176,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="control-label">Payment Date</label>
-                                            <input type="date" name="payment_date" id="name" class="form-control"  >
+                                            <input type="date" required name="payment_date"  class="form-control"  >
                                             </div>
                                     </div>
                                     <!--/span-->
@@ -180,7 +189,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group has-danger">
                                             <label class="control-label">EMI Amount</label>
-                                            <input name="emi_amount" type="text"  id="name" class="form-control form-control-danger" >
+                                            <input required name="emi_amount" type="text"  id="name" class="form-control form-control-danger" >
                                          </div>
                                     </div>
                                     <!--/span-->
@@ -213,17 +222,20 @@
                                             </select>
                                          </div>
                                     </div>
+                                    <input type="text" hidden name="loan_id">
                                     <div class="col-md-6">
                                             <div class="form-group has-danger">
-                                                    <button type="submit" id="submit" onclick="ajaxPostFunction('/addCustomer')"  class="btn btn-success btn-rounded">Make Payment</button>
+                                                    <button type="submit" id="makePayment"   class="btn btn-success btn-rounded">Make Payment</button>
                                              </div>
                                         </div>
                                     <!--/span-->
                                 </div>
                             <!--/row-->
                            
+                           
                         </div>
-                   
+                   {!!Form::close()!!}
+            
                 </div>
     </div>
 </div>
@@ -237,7 +249,11 @@
 @section('js')
 <script src="/js/iziModal.min.js" type="text/javascript"></script>
 <script>
+    
+
+    
     $(document).ready(function(){
+
         $.ajaxSetup({
         headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -251,6 +267,8 @@ type: "POST",
 url: '/pay_emi',
 data: {id:id},
 beforeSend: function(){
+    $('#loader').show();
+    $("#modal").removeAttr("hidden");
     $("#modal").iziModal();
     $('#modal').iziModal('open');
     
@@ -274,6 +292,8 @@ success: function(data) {
  document.loandata.cal_total.value = data.cal_total;
  document.loandata.total_left.value= data.total_left;
  document.loandata.remaining.value= data.remaining;
+ document.loandata.loan_id.value= data.loan_id;
+ $('#loader').hide();
  
  //document.loandata.payment_date.value=data.payment_date;
 },
@@ -295,6 +315,7 @@ error: function(errors,status,xhr){
     // $('#modal').iziModal('open', { zindex: 99999 });
   
 });
+
 
     });
    

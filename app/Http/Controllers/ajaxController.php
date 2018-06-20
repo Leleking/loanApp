@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 use App\customer;
 use App\User;
+use App\branch;
 use App\guarantor;
 use App\loan;
 use App\payment;
-use App\loan_type;
+use App\loanType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
@@ -118,11 +119,12 @@ class ajaxController extends Controller
                 $loan->status = 1;
                 $loan->save();
                 $remaining = round($loan->total/$loan->emi);
-
+               
                 $payment = new payment;
                 $payment->loan_id = $loan->id;
                 $payment->remaining_emi = $remaining ;
                 $payment->due_date = Carbon::now()->addMonths(1);
+                $payment->end_date =  Carbon::now()->addMonths($remaining);
                 $payment->save();
                 return response()->json(['response'=>'Loan has been activated']);
               }
@@ -175,7 +177,8 @@ class ajaxController extends Controller
             'undeposited_penalty'=>$payment->undeposited_penalty,
             'cal_total'=>$loan->total,
             'total_left'=> $total_left,
-            'remaining'=>$payment->remaining_emi
+            'remaining'=>$payment->remaining_emi - 1,
+            'loan_id'=>$loan->id
             
            
             ]);
@@ -195,12 +198,14 @@ class ajaxController extends Controller
     public function due_payment_sms(Request $request){
         if($request->ajax()){
             //$request->id 
+            
             $customer = customer::findOrFail($request->id);
             $loan = loan::where('customer_id',$customer->id)->orderBy('id','desc')->first();
             $payment = payment::where('loan_id',$loan->id)->orderBy('id','desc')->first();
-            $payment = payment::find($payment->id);
-            $due_date = Carbon::parse($payment->due_date)->format('l jS \of F Y ');
+           // $payment = payment::find($payment['id']);
+            $due_date = Carbon::parse($payment['due_date'])->format('l jS \of F Y ');
             $sms = 'Dear '.$customer->surname.' '.$customer->otherName. ', we hope to remind you of your loan payment of '.$loan->emi.'GHc which is due on the '.$due_date.'.We hope to see you soon. Thank You';
+           
             Nexmo::message()->send([
                 'to'   => '+233248574526',
                 'from' => 'KickStart',
@@ -208,6 +213,96 @@ class ajaxController extends Controller
             ]);
               return response()->json(['response'=>'Reminder SMS Sent']);   
           }
+         
+    }
+    public function addLoanType(Request $request){
+        if($request->ajax()){
+            $this->validate($request,[
+                'name'=> 'required',
+                'interest'=>'required',
+               
+               
+              ]);
+              $check = 0;
+              $loanType = loanType::all();
+              foreach($loanType as $loanTypes){
+                  if($loanTypes->name == $request->name){
+                    $check =+1; 
+                    break;
+                  }
+              }
+              if(!$check){
+              $loanType = new loanType;
+              $loanType->name = $request->name;
+              $loanType->interest = $request->interest;
+              $loanType->status = 1;
+              if($request->about){
+                  $loanType->about = $request->about;
+              }         
+              $loanType->save();
+              return response()->json(['response'=>'Loan Type Added']); 
+            }else{
+                return response()->json(['response'=>'Loan Type already exists. Please change name and try again']); 
+            }
+          }       
+    }
+    public function guarantorEdit(Request $request){
+        if($request->ajax()){
+           
+            $guarantor = guarantor::find($request->id);
+            $created_at = Carbon::parse($guarantor->created_at)->format('l jS \of F Y ');
+            return response()->json([
+            'name'=>$guarantor->name,
+            'id'=>$guarantor->id,
+            'phone'=>$guarantor->phone,
+            'address'=>$guarantor->address,
+            'created_at'=>$created_at,
+            ]);
+        }
+    }
+    public function addBranch(Request $request){
+        if($request->ajax()){
+            $this->validate($request,[
+                'name'=> 'required',
+                'address'=>'required',
+               
+               
+              ]);
+              $check = 0;
+              $branch = branch::all();
+              foreach($branch as $branches){
+                  if($branches->name == $request->name){
+                    $check =+1; 
+                    break;
+                  }
+              }
+              if(!$check){
+              $branch = new branch;
+              $branch->name = $request->name;
+              $branch->address = $request->address;
+              if($request->about){
+                  $branch->about = $request->about;
+              }         
+              $branch->save();
+              return response()->json(['response'=>'Branch Added']); 
+            }else{
+                return response()->json(['response'=>'Branch already exists. Please change name and try again']); 
+            }
+          }      
+    }
+    public function branchEdit(Request $request){
+        if($request->ajax()){
+           
+            $branch = branch::find($request->id);
+            $created_at = Carbon::parse($branch->created_at)->format('l jS \of F Y ');
+            return response()->json([
+            'name'=>$branch->name,
+            'id'=>$branch->id,
+            'address'=>$branch->address,
+            'about'=>$branch->about,
+            'created_at'=>$created_at,
+            ]);
+        }
     }
 }
 

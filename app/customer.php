@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class customer extends Model
 {
     public function user(){
-        return $this->hasOne('App\user');
+        return $this->belongsTo('App\user');
     }
     public function guarantor(){
         return $this->hasMany('App\guarantor');
@@ -20,6 +20,9 @@ class customer extends Model
     }
     public function loan(){
         return $this->hasMany('App\loan');
+    }
+    public function collateral(){
+        return $this->hasMany('App\collateral');
     }
    
 }

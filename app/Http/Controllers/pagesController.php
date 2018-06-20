@@ -6,7 +6,9 @@ use App\User;
 use App\guarantor;
 use App\loan;
 use App\loanType;
+use App\branch;
 use Illuminate\Http\Request;
+
 
 class pagesController extends Controller
 {
@@ -46,5 +48,45 @@ class pagesController extends Controller
     public function approveLoan(){
       $loan = loan::all();
       return view('auth.loan.approveloan')->with('loan',$loan);
+    }
+    public function loanType($id){
+        $loanType = loanType::find($id);
+        return view('pages.loanType')->with('loanType',$loanType);
+    }
+    public function addLoanType(){
+        return view('loan.addLoanType');
+    }
+    public function manageLoanType(){
+        $loanType = loanType::all();
+        return view('loan.manageLoanType')->with('loanType',$loanType);
+    }
+    public function manageUsers(){
+        $users = User::all();
+        return view('user.manageUsers')->with('users',$users);
+    }
+    public function manageGuarantors(){
+        $guarantor = guarantor::all();
+        $customer = customer::where('user_id',auth()->user()->id)->get();
+        return view('guarantor.manageGuarantor')->with('guarantor',$guarantor)->with('customer',$customer);
+    }
+    public function addBranch(){
+        return view('branch.addBranch')->with('branch.add');
+    }
+    public function manageBranch(){
+        $branch = branch::all();
+        return view('branch.manageBranch')->with('branch',$branch);
+    }
+    public function manageCollateral(){
+
+    }
+    public function addCollateral(){
+        $id = auth()->user()->id;
+        if(!auth()->user()->isAdmin){
+            $customer = $customer = customer::where('user_id',$id)->orderBy('id','asc')->get();
+        }else{
+            $customer = $customer = customer::all();
+        }
+       
+        return view('collateral.add')->with('customer',$customer);
     }
 }

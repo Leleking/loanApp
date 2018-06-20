@@ -17,9 +17,11 @@ class verifyEmail extends Mailable
      * @return void
      */
     public $user;
-    public function __construct(User $user)
+    public $password;
+    public function __construct(User $user,$password)
     {
         $this->user = $user;
+        $this->password =$password;
     }
 
     /**

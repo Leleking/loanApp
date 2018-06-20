@@ -9,7 +9,7 @@
                 <div class="col-lg-4">
                     <div class="login-content card" >
                         <div class="login-form">
-                            <h4>Login - KickStart</h4>
+                            <span><center><img src="/img/logo.jpg" width="220px" height="200px" alt="homepage" class="dark-logo" /></center></span>
                             <form class="form-horizontal" method="POST" action="{{ route('login') }}">
                                 {{ csrf_field() }}
                                 <div class="form-group">

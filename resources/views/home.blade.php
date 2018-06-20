@@ -16,16 +16,46 @@
                         <div class="media-body media-text-right">
                             <?php $customers = App\customer::where('user_id',Auth::user()->id)->get();
                             $loan_released = 0;
+                            $today = 0;
+                            $month = 0;
+                            $week = 0;
+                            $total_payments = 0;
+                            $due_payment = 0;
                             foreach($customers as $customer){
                                 $loan =  App\loan::where('customer_id',$customer->id)->get();
                                 foreach ($loan as $loans) {
+                                   
                                     $loan_released = $loan_released + $loans->principal;
+                                     $payment = App\payment::where('loan_id',$loans->id)->get();
+                                    foreach($payment as $payments){
+                                       
+                                        
+                                        $due_date = $payments->due_date;
+                                        $date = Carbon::parse($due_date);
+                                        $now = Carbon::now();
+                                        $diff = $date->diffInDays($now);;
+                                        if( $date >= $now->subDays(7) && $date< $now){
+                                            $week = $week + $payments->emi;
+                                        }
+                                        if($diff < 8){
+                                            $due_payment = $due_payment + $payments->emi ;
+                                        }
+                                        $total_payments = $total_payments + $payments->emi; 
+                                        if($payments->created_at->isToday()){
+                                            $today = $today + $payments->emi ;
+                                          
+                                        }
+                                        if($payments->created_at->format('m') == Carbon::today()->month){
+                                            $month = $month + $payments->emi;
+                                        }
+                                    }
+                                  
                                 }
                                
                             }
                             ?>
-                            <h2>{{$loan_released}}</h2>
-                            <p class="m-b-0">Loans Released</p>
+                            <h2>GH&#8373;{{$loan_released}}</h2>
+                                    <p class="m-b-0">Loans Released </p>
                         </div>
                     </div>
                 </div>
@@ -37,7 +67,7 @@
                             <span><i class="fa fa-credit-card f-s-40 color-success"></i></span>
                         </div>
                         <div class="media-body media-text-right">
-                            <h2>1178</h2>
+                            <h2>GH&#8373;{{$total_payments}}</h2>
                             <p class="m-b-0">Payments</p>
                         </div>
                     </div>
@@ -50,7 +80,7 @@
                             <span><i class="fa fa-archive f-s-40 color-warning"></i></span>
                         </div>
                         <div class="media-body media-text-right">
-                            <h2>25</h2>
+                            <h2>{{$due_payment}}</h2>
                             <p class="m-b-0">Due Amount</p>
                         </div>
                     </div>
@@ -91,13 +121,13 @@
                 <div class="card">
                     <h2>Collection Statistics</h2>
                     <div class="card-body browser">
-                        <p class="f-w-600">Today<span class="pull-right">GH<span>&#8373;</span>0</span></p>
+                        <p class="f-w-600">Today<span class="pull-right">GH<span>&#8373;</span>{{$today}}</span></p>
                        <br>
 
-                        <p class="m-t-30 f-w-600">Last Week<span class="pull-right">GH<span>&#8373;</span>0</span></p>
+                        <p class="m-t-30 f-w-600">Last Week<span class="pull-right">GH<span>&#8373;</span>{{$week}}</span></p>
                         
                         <br>
-                        <p class="m-t-30 f-w-600">This Month<span class="pull-right">GH<span>&#8373;</span>0</span></p>
+                        <p class="m-t-30 f-w-600">This Month<span class="pull-right">GH<span>&#8373;</span>{{$month}}</span></p>
                         <br>
                         <p class="m-t-30 f-w-600">Monthy Target<span class="pull-right">GH<span>&#8373;</span>0</span></p>
                         <div class="progress">
@@ -142,7 +172,7 @@
                                         $now = Carbon::now();
                                         $diff = $date->diffInDays($now);;
                                         ?>
-                                        @if($diff > 8)
+                                        @if($diff < 8)
                                         <tr>
                                                 <td>
                                                     <div class="round-img">
@@ -178,14 +208,7 @@
 
         <!-- End PAge Content -->
     </div>
-    <?php
-$to = \Carbon\Carbon::createFromFormat('Y-m-d H:s:i', Carbon::now());
-$from = \Carbon\Carbon::createFromFormat('Y-m-d H:s:i', '2015-5-6 9:30:34');
-
-$diff_in_days = $to->diffInDays($from);
-
-print_r($diff_in_days); // Output: 1
-?>
+  
 @endsection
 @section('js')
 <script src="/js/lib/flot-chart/excanvas.min.js"></script>

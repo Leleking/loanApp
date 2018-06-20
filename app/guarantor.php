@@ -11,4 +11,7 @@ class guarantor extends Model
     public function customer(){
         return $this->belongsTo('App\customer');
     }
+    public function guarantor_image_file(){
+        return $this->hasOne('App\guarantor_image_file');
+    }
 }
