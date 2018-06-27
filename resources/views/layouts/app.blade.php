@@ -149,7 +149,7 @@
                         <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-user" aria-hidden="true"></i><span class="hide-menu">Customers</span></a>
                             <ul aria-expanded="false" class="collapse">
                                 <li><a href="{{route('manageCustomers')}}">Manage Customers</a></li>
-                                <li><a href="email-read.html">Manage Defaulters</a></li>
+                                <li><a href="/manageDefaulters">Manage Defaulters</a></li>
                                 <li><a href="/customer/create">Add New Customer</a></li>
                                 <li><a href="{{route('uploadCustomerDocuments')}}">Upload Customer Documents</a></li>
                             </ul>

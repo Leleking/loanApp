@@ -11,6 +11,7 @@ class adminController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('isSuper');
+        $this->middleware('isStatus');
     }
     public function addUser(){
         $branch = branch::all();

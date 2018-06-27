@@ -59,3 +59,4 @@ Route::get('/admin/users/manage','adminController@manageUser')->name('Manage Use
 Route::get('/collateral/add','pagesController@addCollateral')->name('Add Collateral');
 Route::get('/collateral/manage','pagesController@manageCollateral')->name('Manage Collateral');
 Route::resource('/collateral','collateralController');
+Route::get('manageDefaulters','pagesController@manageDefaulters')->name('Manage Defaulters');

@@ -97,4 +97,15 @@ class pagesController extends Controller
        
         return view('collateral.add')->with('customer',$customer);
     }
+    public function manageDefaulters(){
+        $id = auth()->user()->id;
+        //get the current id of the user
+        if(!auth()->user()->isAdmin){
+            $customer = $customer = customer::where('user_id',$id)->orderBy('id','asc')->get();
+        }else{
+            $customer = $customer = customer::all();
+        }
+        //return all customers which where entered by that particular user
+        return view('customer.manageDefaulters')->with('customer',$customer);
+    }
 }

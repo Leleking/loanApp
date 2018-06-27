@@ -129,7 +129,7 @@
                             <div role="progressbar" style="width: 0%; height:8px;" id="progressbar" class="progress-bar bg-danger wow animated progress-animated"> <span class="sr-only">60% Complete</span> </div>
                         </div>
                         <br>
-                        <p class="f-w-600">Account No. <span class="pull-right"><input name="acct_no" type="text" class="form-control" value="{{App\customer::latest()->first()->acct_no + 1}};"></span></p>
+                        <p class="f-w-600">Account No. <span class="pull-right"><input name="acct_no" type="text" class="form-control" value="{{App\customer::latest()->first()->acct_no + 1}}"></span></p>
                         <br>
                         <div class="form-actions">
                                 <button type="submit" id="submit"  class="btn btn-success btn-rounded"> <i class="fa fa-check"></i> Save</button>

@@ -14,7 +14,16 @@
                             <span><i class="fa fa-usd f-s-40 color-primary"></i></span>
                         </div>
                         <div class="media-body media-text-right">
-                            <?php $customers = App\customer::where('user_id',Auth::user()->id)->get();
+
+                            <?php
+                            if(!Auth::user()->isAdmin){
+                                 $customers = App\customer::where('user_id',Auth::user()->id)->orderBy('id','asc')->get();
+                            }else{
+                                 $customers = App\customer::all();
+                            }
+                           // $customers = App\customer::where('user_id',Auth::user()->id)->get();
+                            $approved = 0;
+                            $pending = 0;
                             $loan_released = 0;
                             $today = 0;
                             $month = 0;
@@ -24,12 +33,16 @@
                             foreach($customers as $customer){
                                 $loan =  App\loan::where('customer_id',$customer->id)->get();
                                 foreach ($loan as $loans) {
+                                   if(!$loans->status && !$loans->cleared){
+                                       $pending = $pending + 1;
+                                   }else{
+                                       $approved =+ 1;
+                                   }
                                    
                                     $loan_released = $loan_released + $loans->principal;
                                      $payment = App\payment::where('loan_id',$loans->id)->get();
                                     foreach($payment as $payments){
-                                       
-                                        
+                                      
                                         $due_date = $payments->due_date;
                                         $date = Carbon::parse($due_date);
                                         $now = Carbon::now();
@@ -129,10 +142,7 @@
                         <br>
                         <p class="m-t-30 f-w-600">This Month<span class="pull-right">GH<span>&#8373;</span>{{$month}}</span></p>
                         <br>
-                        <p class="m-t-30 f-w-600">Monthy Target<span class="pull-right">GH<span>&#8373;</span>0</span></p>
-                        <div class="progress">
-                            <div role="progressbar" style="width: 65%; height:8px;" class="progress-bar bg-success wow animated progress-animated"> <span class="sr-only">60% Complete</span> </div>
-                        </div>
+                       
 
                        
                     </div>
@@ -232,25 +242,21 @@ $( function () {
 var data = [
     {
         label: "Pending",
-        data: 1,
+        data: "<?php echo $pending;?>",
         color: "#8fc9fb"
     },
     {
         label: "Approved",
-        data: 3,
+        data: "<?php echo $approved;?>",
         color: "#007BFF"
     },
     {
-        label: "Danger",
-        data: "<?php echo 25;?>",
-        color: "#19A9D5"
-    },
-    {
-        label: "Warning",
-        data: 8,
+        label: "Defaultered",
+        data: "<?php echo $defaultered;?>",
         color: "#DC3545"
     }
 ];
+  
 
 var plotObj = $.plot( $( "#flot-pie" ), data, {
     series: {
